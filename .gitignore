@@ -1,0 +1,12 @@
+#ignore local project files
+HelloAndroid.iml
+HelloAndroid.ipr
+HelloAndroid.iws
+local.properties
+
+#build
+build.xml
+out/
+
+#other
+proguard-project.txt

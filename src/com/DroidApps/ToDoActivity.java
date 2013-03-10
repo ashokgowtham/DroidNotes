@@ -2,6 +2,8 @@ package com.DroidApps;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,16 +22,27 @@ public class ToDoActivity extends Activity {
         setContentView(R.layout.main);
 
         //get references to UI widgets
-        EditText editText = (EditText) findViewById(R.id.myEditText);
+        final EditText editText = (EditText) findViewById(R.id.myEditText);
         ListView listView = (ListView) findViewById(R.id.myListView);
 
-        ArrayList<String> todoItems = new ArrayList<String>();
+        final ArrayList<String> todoItems = new ArrayList<String>();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
 
-        todoItems.add("first item...");
-
         listView.setAdapter(arrayAdapter);
-
-
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
+                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        todoItems.add(editText.getText().toString());
+                        arrayAdapter.notifyDataSetChanged();
+                        editText.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }

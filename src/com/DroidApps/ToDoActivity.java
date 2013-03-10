@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -23,10 +24,11 @@ public class ToDoActivity extends Activity {
 
         //get references to UI widgets
         final EditText editText = (EditText) findViewById(R.id.myEditText);
-        ListView listView = (ListView) findViewById(R.id.myListView);
+        final ListView listView = (ListView) findViewById(R.id.myListView);
+        final Button button = (Button) findViewById(R.id.addToDoItemButton);
 
         final ArrayList<String> todoItems = new ArrayList<String>();
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.todolist_item, todoItems);
 
         listView.setAdapter(arrayAdapter);
         editText.setOnKeyListener(new View.OnKeyListener() {
@@ -35,14 +37,24 @@ public class ToDoActivity extends Activity {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if ((keyCode == KeyEvent.KEYCODE_DPAD_CENTER) ||
                             (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        todoItems.add(editText.getText().toString());
-                        arrayAdapter.notifyDataSetChanged();
-                        editText.setText("");
+                        AddToDoItem(todoItems, editText, arrayAdapter, listView);
                         return true;
                     }
                 }
                 return false;
             }
         });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToDoItem(todoItems, editText, arrayAdapter, listView);
+            }
+        });
+    }
+
+    private void AddToDoItem(ArrayList<String> todoItems, EditText editText, ArrayAdapter<String> arrayAdapter, ListView listView) {
+        todoItems.add(editText.getText().toString());
+        arrayAdapter.notifyDataSetChanged();
+        editText.setText("");
     }
 }

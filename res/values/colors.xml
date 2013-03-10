@@ -1,0 +1,5 @@
+<resources>
+    <color name="notepad_paper">#fff28f</color>
+    <color name="notepad_lines">#f3b0a3</color>
+    <color name="notepad_margin">#f3b0a3</color>
+</resources>
